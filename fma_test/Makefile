@@ -1,6 +1,6 @@
 CC		:= g++
 C_FLAGS := -std=c++17 -Wall -Wextra -O0 -mavx2 -mfma
-C_FLAGS += -DDEBUG
+#C_FLAGS += -DDEBUG
 
 BIN		:= bin
 SRC		:= src

@@ -62,7 +62,6 @@ using namespace std;
 void display(int64_t** m, uint x, uint y){
 
 	cout<<"Matrix "<<m<<" is as follows : "<<endl;
-	#pragma omp for
 	for(uint i=0;i<x;i++){
 		for(uint j=0;j<y;j++){
 			cout<<"\t"<<m[i][j];

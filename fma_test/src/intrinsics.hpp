@@ -26,18 +26,6 @@ void display(__m256i v){
     cout<<"]"<<endl;
 }
 
-void display(__m512i v){
-    int x=sizeof(v), y=sizeof(int), iterations=x/y;
-    display(x,y,iterations);
-
-    int *p=(int*)&v;
-    cout<<"[\t";
-    for(uint8_t i=0;i<iterations;i++){
-        cout<<p[i]<<"\t";
-    }
-    cout<<"]"<<endl;
-}
-
 void display(__m256d v){
     int x=sizeof(v), y=sizeof(double), iterations=x/y;
     display(x,y,iterations);
