@@ -1,6 +1,6 @@
 #include <iostream>
 #include <chrono>
-#include <immintrin.h>
+#include <x86intrin.h>
 
 using namespace std;
 
@@ -27,20 +27,15 @@ void display(I v){
     cout<<"]"<<endl;
 }
 
-void fiddleWithIntrinsics(){
-	int int_array[8] = {100, 200, 300, 400, 500, 600, 700, 800};
-
-	__m256i mask = _mm256_setr_epi32(-20, -72, -48, -9, -100, 3, 5, 8);
-
-	/* Selectively load data into the vector */
-	__m256i result = _mm256_maskload_epi32(int_array, mask);
-
-    display<int>(result);
-}
-
-void loadDataExample(){
-    __m256i int_vector = _mm256_setr_epi32(1, 2, 3, 4, 5, 6, 7, 8);
-    display<int>(int_vector);
+template<typename I>
+void display(I* m, uint x, uint y){
+    cout<<"Matrix "<<m<<" is as follows : "<<endl;
+	for(uint i=0;i<x;i++){
+		for(uint j=0;j<y;j++){
+			cout<<"\t"<<m[i][j];
+		}
+		cout<<endl;
+	}
 }
 
 void multiplyExample(){
@@ -48,19 +43,33 @@ void multiplyExample(){
     __m256d vecb = _mm256_setr_pd(2.0, 2.0, 2.0, 2.0);
     __m256d vecc = _mm256_setr_pd(7.0, 7.0, 7.0, 7.0);
 
-    __m256d result = _mm256_fmaddsub_pd(veca, vecb, vecc);
-    display<int>(result);
-    result = _mm256_mul_pd(veca, vecb);
-    display<int>(result);
+    cout<<"\n************ Hardware multiply example ************"<<endl;
+    
+    display<double>(veca);
+    display<double>(vecb);
+    cout<<"Multiplying "<<&veca<<" and "<<&vecb<<endl;
+    __m256d result = _mm256_mul_pd(veca, vecb);
+    display<double>(result);
+
+    cout<<"\n*********** Fused multiply add example ************"<<endl;
+    display<double>(vecc);
+    cout<<"Fused-Multiply-Add-ing "<<&veca<<", "<<&vecb<<" and "<<&vecc<<endl;
+
+    result = _mm256_fmadd_pd(veca, vecb, vecc);
+    display<double>(result);
+
+    cout<<"\n******* Fused multiply add-subtract example *******"<<endl;
+    cout<<"Fused-Multiply-Add-Subtract-ing "<<&veca<<", "<<&vecb<<" and "<<&vecc<<endl;
+
+    result = _mm256_fmaddsub_pd(veca, vecb, vecc);
+    display<double>(result);
 }
 
 void run(){
-    //fiddleWithIntrinsics();
-    //loadDataExample();
-    //multiplyExample();
+    multiplyExample();
 
-    __m256i x=_mm256_setr_epi64x(3,2,9,6);
-    display<int64_t>(x);
-    __m256d a = _mm256_setr_pd(6.1, 6.0, 6.0, 6.0);
-    display<double>(a);
+    int a[2][2]={1,2,3,4};
+    int b[2][2]={1,2,3,4};
+    display(a,2,2);
+    
 }
