@@ -5,8 +5,8 @@
 using namespace std;
 
 // Standard definitions for dimensions of matrices
-#define HEIGHT	500
-#define WIDTH	500
+#define HEIGHT	1000
+#define WIDTH	1000
 
 // Selective compilation. Compile with debug flag enabled only to print the matrices when the matrices are small.
 // You really do not want matrices of 1000x1000 overwheming your screen!
@@ -93,9 +93,7 @@ int64_t** matrix_multiply(int64_t **a, uint ax, uint ay, int64_t **b, uint bx, u
 	return toReturn;
 }
 
-int main(int argc, char *argv[]) {
-	cout<<"This is a test to verify hardware acceleration for AVX2/FMA instructions."<<endl;
-	cout<<"My machine uses an Intel 8550u."<<endl;
+void matrix_multiply(){
 	cout<<"Generating matrices of "<<HEIGHT<<"x"<<WIDTH<<" dimensions..."<<endl;
 	int64_t **u=UNIT(HEIGHT,WIDTH), **r=RANDOM(HEIGHT,WIDTH);
 	cout<<"Matrices generated successfully."<<endl;
@@ -111,7 +109,13 @@ int main(int argc, char *argv[]) {
 	if(DEBUG){
 		DISPLAY(result);
 	}
+}
 
+int main(int argc, char *argv[]) {
+	cout<<"This is a test to verify hardware acceleration for AVX2/FMA instructions."<<endl;
+	cout<<"My machine uses an Intel 8550u."<<endl;
+	
+	//matrix_multiply();
 	run();
 	
 	return 0;
